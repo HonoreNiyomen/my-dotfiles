@@ -1,0 +1,261 @@
+   ##################################
+   ##################################
+   ####   HOREZ's  I3  CONFIG    ####
+   ##################################
+   ##################################
+focus_follows_mouse yes
+
+set $mod Mod4
+set $alt Mod1
+
+## Auto-Executing Commands
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
+exec --no-startup-id killall polybar; ~/.config/polybar/launch.sh
+exec --no-startup-id feh --bg-scale ~/.config/backgrounds/Wallpaper.png
+exec --no-startup-id xrdb -merge ~/.Xresources
+exec --no-startup-id killall dunst; dunst
+
+# Font for window titles.
+font pango:Ubuntu Mono 10, Noto Color Emoji 10
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:Ubuntu Mono 10, Noto Color Emoji 10
+
+# Start XDG autostart .desktop files using dex. See also
+# https://wiki.archlinux.org/index.php/XDG_Autostart
+exec --no-startup-id dex --autostart --environment i3
+
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
+
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
+#exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+## NETWORK
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
+exec --no-startup-id nm-applet
+bindsym $mod+Shift+n exec /usr/local/bin/toggle-network.sh
+bindsym $mod+Shift+b exec /usr/local/bin/toggle-bluetooth.sh
+
+##SCREENSHOTS
+#bindsym Print exec maim "/home/$USER/Pictures/$(date).jpg"
+bindsym $mod+p exec scrot ~/Pictures/screenshot_%Y-%m-%d-%T.png
+#bindsym Shift+Print exec maim --select "/home/$USER/Pictures/$(date).jpg"
+
+## Clipboard Screenshots
+#bindsym Ctrl+p exec maim | xclip -selection clipboard -t image/png
+#bindsym Shift+$mod+p exec maim --window $(xdotool getactivewindow) | xclip -selection clipboard -t image/png
+#bindsym Ctrl+Shift+p exec maim --select | xclip -selection clipboard -t image/png
+
+## Volume && Brightness
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volume.sh +5
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volume.sh -5
+bindsym XF86AudioMute exec --no-startup-id pamixer --toggle-mute && ~/.config/i3/scripts/volume.sh 0
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/brightness.sh +4%
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/brightness.sh 4%-
+
+## Power menu
+bindsym XF86PowerOff exec ~/.config/i3/scripts/power-menu.sh
+
+## Lockscreen
+bindsym Ctrl+Shift+L exec i3lock -i ~/.config/backgrounds/Wallpaper_blur.png
+exec --no-startup-id xautolock -time 10 -locker "i3lock -i ~/.config/backgrounds/Wallpaper_blur.png" -monitor 1 -detectsleep
+exec --no-startup-id xset dpms 600 900 1200
+
+## Rofi (Dmenu alternative)
+bindsym $mod+d exec --no-startup-id rofi -show drun
+bindsym $mod+space exec --no-startup-id rofi -show combi
+bindsym $mod+Tab exec --no-startup-id rofi -show window
+
+## Music Controls
+bindsym $alt+space exec audacious --play-pause
+bindsym Ctrl+XF86AudioRaiseVolume exec audacious --fwd
+bindsym Ctrl+XF86AudioLowerVolume exec audecious --rew
+
+## Terminal Emulator
+bindsym $mod+Return exec kitty
+
+## Browser
+bindsym $mod+f exec google-chrome-stable %U
+
+## File Manager
+bindsym $mod+$alt+e exec nemo
+
+## enter fullscreen mode for the focused container
+bindsym XF86LaunchA fullscreen toggle
+
+## Exit Focused Window
+bindsym $alt+period kill
+
+## Reload the i3 config file
+bindsym $mod+Shift+c reload
+
+## Restart i3 inplace
+bindsym $mod+XF86Reload restart
+
+## Exit Session
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+
+## Remove Window Boarders
+for_window [class="^.*"] border pixel 1
+
+## Dragging floating windows Left-Click+$mod to their wanted position
+floating_modifier $mod
+tiling_drag modifier titlebar
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+e layout stacking
+bindsym $mod+t layout tabbed
+bindsym $mod+s layout toggle split
+
+## Toggle Floating Mode
+bindsym Ctrl+Shift+f floating toggle
+#(Change focused windows)
+bindsym $mod+Shift+f focus mode_toggle
+
+## Focus container
+#parent
+bindsym $mod+a focus parent
+#child
+#bindsym $mod+c focus child
+
+## Split Windows
+#(Horizontal Orientation)
+bindsym $mod+Shift+g split h
+#(Vertical Orientation)
+bindsym $mod+Shift+v split v
+
+## Shrinking & Growing Windows’ width & hight.
+bindsym $mod+Shift+y resize shrink width 5 px or 5 ppt
+bindsym $mod+Shift+u resize grow height 5 px or 5 ppt
+bindsym $mod+Shift+i resize shrink height 5 px or 5 ppt
+bindsym $mod+Shift+o resize grow width 5 px or 5 ppt
+
+## Change focused Window 
+#(Vim Keys)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+#(Arrow Keys)
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+## Move focused Window
+#(Vim Keys)
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+#(Arrow keys)
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+## switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+## move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+## System Colours
+set $rosewater   #f5e0dc
+set $flamingo    #f2cdcd
+set $pink        #f5c2e7
+set $mauve       #cba6f7
+set $red         #f38ba8
+set $maroon      #eba0ac
+set $peach       #fab387
+set $yellow      #f9e2af
+set $green       #a6e3a1
+set $teal        #94e2d5
+set $sky         #89dceb
+set $sapphire    #74c7ec
+set $blue        #89b4fa
+set $lavender    #b4befe
+set $text        #cdd6f4
+set $subtext1    #bac2de
+set $subtext0    #a6adc8
+set $overlay2    #9399b2
+set $overlay1    #7f849c
+set $overlay0    #6c7086
+set $surface2    #585b70
+set $surface1    #45475a
+set $surface0    #313244
+set $base        #1e1e2e
+set $mantle      #181825
+set $crust       #11111b
+
+# target                 title     bg    text      indicator    border
+client.focused           $red      $mauve $mantle  $rosewater $red
+client.focused_inactive  $overlay0 $base  $text    $rosewater $overlay0
+client.unfocused         $overlay0 $base  $text    $rosewater $overlay0
+client.urgent            $peach    $base  $peach   $overlay0  $peach
+client.placeholder       $overlay0 $base  $text    $overlay0  $overlay0
+client.background        $base
+
+## i3 Status bar
+#bar {
+#	status_command i3blocks
+#	
+#	#background #00000000
+#
+#	#colors {
+#        #	background #00000000
+#        #	statusline #ffffff
+#    	#}
+#}
+
+# Set gaps between windows
+gaps inner 8
+gaps outer 0
+
+# You can also configure specific gaps per workspace
+#workspace 2 gaps inner 20
+
+# Increase and decrease gaps
+#bindsym $mod+Ctrl+Shift+equal gaps inner all set 10
+#bindsym $mod+Ctrl+Shift+minus gaps inner all set 2
+
+# Remove gaps
+bindsym $mod+Ctrl+Shift+0 gaps inner all set 0
+
+## auto back & forth workspace
+workspace_auto_back_and_forth yes
