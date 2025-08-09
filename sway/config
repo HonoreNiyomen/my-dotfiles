@@ -1,0 +1,143 @@
+# Mod keys
+set $mod Mod4
+set $alt Mod1
+
+# Wallpaper
+exec_always --no-startup-id picom --config ~/.config/sway/scripts/init_sway.sh
+exec_always --no-startup-id swaybg -m fill -i ~/Pictures/Wallpaper.jpg
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
+exec_always --no-startup-id killall waybar; waybar
+
+## Remove Window Boarders
+#for_window [class=".*"] titlebar no
+
+# Notifications
+exec_always --no-startup-id dunst
+
+# Idle & lock
+exec_always --no-startup-id swayidle \
+  timeout 300 'swaylock -f'
+
+# touchpad
+input "type:touchpad" {
+    tap enabled
+#    tap_button_map right_middle
+    natural_scroll enabled
+}
+
+## Volume && Brightness
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/sway/scripts/volume.sh +5
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/sway/scripts/volume.sh -5
+bindsym XF86AudioMute exec --no-startup-id pamixer --toggle-mute && ~/.config/sway/scripts/volume.sh 0
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/sway/scripts/brightness.sh +4%
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/sway/scripts/brightness.sh 4%-
+
+## Music Controls
+bindsym $alt+Ctrl+space exec audacious -t
+bindsym $alt+0 exec audacious -f
+bindsym $alt+9 exec audecious -p
+
+bindsym Ctrl+XF86AudioRaiseVolume exec audacious -f
+bindsym Ctrl+XF86AudioLowerVolume exec audecious -p
+
+## Power menu
+bindsym XF86PowerOff exec ~/.config/sway/scripts/power-menu.sh
+
+# Focus follows mouse
+focus_follows_mouse yes
+
+# Launch terminal, browser, file manager
+bindsym $mod+Return exec alacritty
+bindsym $alt+x      exec firefox-esr
+bindsym $alt+z      exec nemo
+
+## enter fullscreen mode for the focused container
+bindsym XF86LaunchA fullscreen toggle
+
+# App launcher
+bindsym $mod+d      exec wofi --show drun
+
+# Close window
+bindsym Ctrl+comma kill
+
+# Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Split layout
+bindsym $mod+v split vertical
+bindsym $mod+b split horizontal
+
+# Move focus (hjkl or arrows)
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+## auto back & forth workspace
+workspace_auto_back_and_forth yes
+
+# Screenshot
+bindsym $mod+p exec grim ~/Pictures/screenshot_$(date +'%F_%T').png
+bindsym $mod+$alt+Print exec grim -g "$(slurp)" - | wl-copy
+
+# Reload & exit
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaymsg exit
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+## switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+## move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Gaps
+gaps inner 3
+gaps outer 2
+bindsym $mod+Ctrl+0 gaps inner all set 0
+
+## System Colours
+set $text        #cdd6f4
+set $faint       #a6afcc
+set $subtext1    #bac2de
+set $surface0    #313244
+set $base        #1e1e2e
+set $mantle      #181825
+
+# target                 title     bg      text      indicator    border
+client.focused           $text     $base   $text     $faint      $faint
+client.focused_inactive  $surface0 $base   $mantle   $surface0   $surface0
+client.unfocused         $surface0 $base   $mantle   $surface0   $surface0
+client.urgent            $text     $base   $mantle   $surface0   $text
+client.placeholder       $surface0 $base   $mantle   $surface0   $surface0
+client.background        $base

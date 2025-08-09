@@ -1,0 +1,70 @@
+{
+  "modules-left": [
+    "sway/workspaces"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "cpu",
+    "memory",
+    "network",
+    "custom/bluetooth",
+    "pulseaudio",
+    "battery",
+  ],
+  "sway/workspaces": {
+    "disable-scroll": true
+  },
+    "custom/bluetooth": {
+    "exec":  "~/.config/waybar/scripts/bluetooth_status.sh",
+    "interval": 10,
+    "tooltip": false,
+    "on-click-right": "~/.config/waybar/scripts/bluetooth_manager.sh",
+    "on-click":  "~/.config/waybar/scripts/bluetooth_status.sh --toggle"
+  },
+  "pulseaudio": {
+    "scroll-step": 1,
+    "format": "VOL {volume}%",
+    "format-muted": "VOL MUTE",
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "tooltip": false
+  },
+  "battery": {
+    "interval": 10,
+    "states": {
+      "warning": 20,
+      "critical": 10
+    },
+    "on-click": "~/.config/waybar/scripts/toggle-power-profile.sh",
+    "format": "BAT {capacity}%",
+    "format-full": "BAT {capacity}%",
+    "format-charging": "BAT+ {capacity}%",
+    "tooltip": false
+  },
+  "clock": {
+    "format": "{:%a, %d. %b  %H:%M}",
+    "tooltip": false
+  },
+  "memory": {
+    "interval": 1,
+    "format": "RAM {percentage}%",
+    "states": {
+      "warning": 90
+    }
+  },
+  "cpu": {
+    "interval": 1,
+    "format": "CPU {usage}%"
+  },
+  "network": {
+    "interval": 1,
+    "format-wifi": "WIFI {essid}",
+    "format-ethernet": "ETH {ifname} ({ipaddr})",
+    "format-linked": "WIFI {essid} (No IP)",
+    "format-disconnected": "NET Disconnected",
+    "on-click":  "~/.config/waybar/scripts/wifi_toggle.sh",
+    "on-click-right": "nm-connection-editor",
+    "tooltip": false
+  }
+}
