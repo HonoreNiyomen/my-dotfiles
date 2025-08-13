@@ -1,0 +1,5 @@
+cursor:
+  style:
+    shape: Beam
+    blinking: Off
+  unfocused_hollow: true

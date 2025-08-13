@@ -61,10 +61,10 @@
     "interval": 1,
     "format-wifi": "WIFI {essid}",
     "format-ethernet": "ETH {ifname} ({ipaddr})",
-    "format-linked": "WIFI {essid} (No IP)",
-    "format-disconnected": "NET Disconnected",
-    "on-click":  "~/.config/waybar/scripts/wifi_toggle.sh",
-    "on-click-right": "nm-connection-editor",
-    "tooltip": false
+    "format-disconnected": "NET Off",
+    "max-length": 30,
+    "tooltip": false,
+    "on-click": "nm-connection-editor",
+    "on-click-right": "~/.config/waybar/scripts/wifi_toggle.sh"
   }
 }

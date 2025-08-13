@@ -1,29 +1,30 @@
-# Mod keys
 set $mod Mod4
 set $alt Mod1
 
-# Wallpaper
-exec_always --no-startup-id picom --config ~/.config/sway/scripts/init_sway.sh
-exec_always --no-startup-id swaybg -m fill -i ~/Pictures/Wallpaper.jpg
-exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
-exec_always --no-startup-id killall waybar; waybar
+# Enviromental variables for systemd users
+include ~/.config/sway/scripts/systemd-user.conf
 
-## Remove Window Boarders
-#for_window [class=".*"] titlebar no
+# Auto exec applications
+output * bg ~/Pictures/Wallpaper.jpg fill
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
+exec --no-startup-id waybar
 
-# Notifications
-exec_always --no-startup-id dunst
-
-# Idle & lock
-exec_always --no-startup-id swayidle \
-  timeout 300 'swaylock -f'
 
 # touchpad
 input "type:touchpad" {
     tap enabled
-#    tap_button_map right_middle
     natural_scroll enabled
+    middle_emulation enabled
 }
+
+# screen resolution
+output eDP-1 resolution 1366x768 position 0,0
+
+# idle lock screen
+ exec swayidle -w \
+          timeout 300 'swaylock -f -c 000000' \
+          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+          before-sleep 'swaylock -f -c 000000'
 
 ## Volume && Brightness
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/sway/scripts/volume.sh +5
@@ -37,9 +38,6 @@ bindsym $alt+Ctrl+space exec audacious -t
 bindsym $alt+0 exec audacious -f
 bindsym $alt+9 exec audecious -p
 
-bindsym Ctrl+XF86AudioRaiseVolume exec audacious -f
-bindsym Ctrl+XF86AudioLowerVolume exec audecious -p
-
 ## Power menu
 bindsym XF86PowerOff exec ~/.config/sway/scripts/power-menu.sh
 
@@ -50,6 +48,7 @@ focus_follows_mouse yes
 bindsym $mod+Return exec alacritty
 bindsym $alt+x      exec firefox-esr
 bindsym $alt+z      exec nemo
+bindsym $alt+c      exec firefox-esr --new-window --class webapp "https://chatgpt.com/"
 
 ## enter fullscreen mode for the focused container
 bindsym XF86LaunchA fullscreen toggle
@@ -73,6 +72,12 @@ bindsym $mod+Down focus down
 bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
+# Move the focused window with the same, but add Shift
+    bindsym $mod+Shift+Left move left
+    bindsym $mod+Shift+Down move down
+    bindsym $mod+Shift+Up move up
+    bindsym $mod+Shift+Right move right
+
 ## auto back & forth workspace
 workspace_auto_back_and_forth yes
 
@@ -82,7 +87,7 @@ bindsym $mod+$alt+Print exec grim -g "$(slurp)" - | wl-copy
 
 # Reload & exit
 bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exec swaymsg exit
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -126,18 +131,25 @@ gaps inner 3
 gaps outer 2
 bindsym $mod+Ctrl+0 gaps inner all set 0
 
-## System Colours
+default_border none 
+for_window [title="^.*"] title_format ""
+default_border pixel 1
+default_floating_border pixel 1
+
+## System Colours — very faint gray palette
 set $text        #cdd6f4
-set $faint       #a6afcc
+set $faint       #cccccc
 set $subtext1    #bac2de
 set $surface0    #313244
 set $base        #1e1e2e
 set $mantle      #181825
 
-# target                 title     bg      text      indicator    border
-client.focused           $text     $base   $text     $faint      $faint
-client.focused_inactive  $surface0 $base   $mantle   $surface0   $surface0
-client.unfocused         $surface0 $base   $mantle   $surface0   $surface0
-client.urgent            $text     $base   $mantle   $surface0   $text
-client.placeholder       $surface0 $base   $mantle   $surface0   $surface0
+# target                 title     bg      text      indicator   border
+client.focused           $text     $base   $text     $text
+client.focused_inactive  $surface0 $base   $mantle   $surface0
+client.unfocused         $surface0 $base   $mantle   $surface0
+client.urgent            $text     $base   $mantle   $surface0
+client.placeholder       $surface0 $base   $mantle   $surface0
 client.background        $base
+
+#include /etc/sway/config.d/*
