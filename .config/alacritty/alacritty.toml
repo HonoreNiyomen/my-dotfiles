@@ -1,0 +1,12 @@
+[cursor.style]
+shape = "Beam"
+blinking = "On"
+
+[terminal]
+
+[cursor]
+blink_interval = 500
+
+[terminal.shell]
+program = "/usr/bin/tmux"
+args = ["new-session"]
