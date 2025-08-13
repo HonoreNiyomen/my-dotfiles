@@ -1,5 +1,5 @@
 Horez Dotfiles
-<p align="center"> <img src="screenshot_2025-08-13_13:32:42.png" alt="screenshot — sway + wayland on Debian" width="85%"> </p>
+<p align="center"> <img src="screenshot_2025-08-13_13-32-42.png" alt="screenshot — sway + wayland on Debian" width="85%"> </p>
 
 A curated set of my desktop configuration files (Sway / Wayland focused) — themes, bar configs, and small helper scripts to get a clean, minimal, and visually consistent environment.
 About
@@ -54,7 +54,7 @@ What’s in this repo
 
 LICENSE
 runs/               # small notes & init docs
-screenshot_2025-08-13_13:32:42.png
+screenshot_2025-08-13_13-32-42.png
 Wallpaper.jpg
 .config/
   ├─ alacritty
