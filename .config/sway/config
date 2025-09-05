@@ -8,7 +8,7 @@ include ~/.config/sway/scripts/systemd-user.conf
 output * bg ~/Pictures/Wallpaper.jpg fill
 exec --no-startup-id picom --config ~/.config/picom/picom.conf
 exec --no-startup-id waybar
-
+exec gammastep -l -15.4:28.3 -t 6500:4000
 
 # touchpad
 input "type:touchpad" {
@@ -27,6 +27,8 @@ output eDP-1 {
           timeout 300 '~/.config/sway/scripts/lock_screen.sh' \
           timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
           before-sleep '~/.config/sway/scripts/lock_screen.sh'
+
+bindsym $mod+Shift+b exec ~/.config/sway/scripts/blue-light-toggle.sh
 
 bindsym Ctrl+Shift+l exec --no-startup-id ~/.config/sway/scripts/lock_screen.sh
 
@@ -192,6 +194,6 @@ for_window {
 	[window_type="toolbar"] $float
 	[window_type="tooltip"] $float
 	[window_type="utility"] $float
-
+        [app_id="zenity"] floating enable
 	[title="Wine System Tray"] floating enable; kill
 }

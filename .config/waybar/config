@@ -8,11 +8,22 @@
   "modules-right": [
     "cpu",
     "memory",
+    "disk",
     "network",
     "custom/bluetooth",
     "pulseaudio",
     "battery",
   ],
+  
+    "disk": {
+      "format": "ROM {free}",
+      "interval": 60,
+      "path": "/home",
+      "states": {
+        "disk-0": 0,
+        "disk-90": 90
+      }
+    },
   "sway/workspaces": {
     "disable-scroll": true
   },
@@ -64,7 +75,7 @@
     "format-disconnected": "NET Off",
     "max-length": 30,
     "tooltip": false,
-    "on-click": "nm-connection-editor",
-    "on-click-right": "~/.config/waybar/scripts/wifi_toggle.sh"
+    "on-click-right": "nm-connection-editor",
+    "on-click": "~/.config/waybar/scripts/wifi_toggle.sh"
   }
 }
