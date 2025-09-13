@@ -12,9 +12,9 @@
     "network",
     "custom/bluetooth",
     "pulseaudio",
-    "battery",
+    "battery"
   ],
-  
+
     "disk": {
       "format": "ROM {free}",
       "interval": 60,

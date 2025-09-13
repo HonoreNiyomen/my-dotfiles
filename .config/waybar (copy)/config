@@ -1,0 +1,194 @@
+{
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top",
+  "spacing": 0,
+  "height": 32,
+  "modules-left": [
+    "sway/workspaces",
+    "sway/window"
+  ],
+  "modules-center": [
+    "clock",
+    "custom/powerprofile",
+    "idle_inhibitor",
+    "group/tray-expander"
+  ],
+  "modules-right": [
+    "network",
+    "cpu",
+    "bluetooth",
+    "pulseaudio",
+    "backlight",
+    "battery"
+  ],
+  "clock": {
+    "format": "{:%A %H:%M}",
+    "format-alt": "{:%d %B W%V %Y}",
+    "tooltip": false
+  },
+  "custom/powerprofile": {
+    "exec": "/home/horez/.config/waybar/scripts/toggle-power-profile.sh",
+    "interval": 10,
+    "on-click": "/home/horez/.config/waybar/scripts/toggle-power-profile.sh t",
+    "tooltip": false
+  },
+  "custom/expand-icon": {
+    "format": "  ",
+    "tooltip": false
+  },
+  "idle_inhibitor": {
+    "format": " {icon} ",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  },
+  "backlight": {
+    "min": 0,
+    "max": 100,
+    "device": "intel_backlight",
+    "format": " {icon}  {percent}%",
+    "format-icons": [
+      "",
+      ""
+    ]
+  },
+  "sway/workspaces": {
+    "disable-scroll": false,
+    "on-click": "activate",
+    "format": "{icon}",
+    "format-icons": {
+      "default": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "active": "󱓻"
+    },
+    "persistent-workspaces": {
+      "1": [],
+      "2": [],
+      "3": []
+    }
+  },
+  "sway/window": {
+    "format": "{app_id}",
+    "max-length": 75
+  },
+  "cpu": {
+    "interval": 5,
+    "format": "󰍛 {usage}% ",
+    "on-click": "alacritty --class=Impala -e btop"
+  },
+  "network": {
+    "format-icons": [
+      "󰤯",
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
+    "format": "{icon}",
+    "on-click": "alacritty --class=Impala -e impala",
+    "format-wifi": "⇡{bandwidthUpBytes} ⇣{bandwidthDownBytes}  {icon} ",
+    "format-ethernet": "󰀂",
+    "format-disconnected": "󰖪",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 3,
+    "spacing": 1
+  },
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-discharging": "{icon} {capacity}%",
+    "format-charging": "{icon} {capacity}%",
+    "format-plugged": "",
+    "format-icons": {
+      "charging": [
+        "󰢜",
+        "󰂆",
+        "󰂇",
+        "󰂈",
+        "󰢝",
+        "󰂉",
+        "󰢞",
+        "󰂊",
+        "󰂋",
+        "󰂅"
+      ],
+      "default": [
+        "󰁺",
+        "󰁻",
+        "󰁼",
+        "󰁽",
+        "󰁾",
+        "󰁿",
+        "󰂀",
+        "󰂁",
+        "󰂂",
+        "󰁹"
+      ]
+    },
+    "format-full": "󰂅",
+    "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+    "interval": 5,
+    "on-click": "omarchy-menu power",
+    "states": {
+      "warning": 20,
+      "critical": 10
+    }
+  },
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "on-click": "alacritty --class=Wiremix -e wiremix",
+    "on-click-right": "playerctl play-pause",
+    "tooltip-format": "Playing at {volume}%",
+    "scroll-step": 5,
+    "format-muted": "󰝟",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    }
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-connected": " {device_alias}",
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "format-device-preference": [
+      "device1",
+      "device2"
+    ],
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click-right": "~/.config/waybar/scripts/bluetooth_manager.sh",
+    "on-click": "~/.config/waybar/scripts/bluetooth_status.sh --toggle"
+  },
+  "group/tray-expander": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 600,
+      "children-class": "tray-group-item"
+    },
+    "modules": [
+      "custom/expand-icon",
+      "tray"
+    ]
+  },
+  "tray": {
+    "icon-size": 12,
+    "spacing": 12
+  }
+}

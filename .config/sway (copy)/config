@@ -1,0 +1,224 @@
+set $mod Mod4
+set $alt Mod1
+
+# Enviromental variables for systemd users
+include ~/.config/sway/scripts/systemd-user.conf
+
+# Auto exec applications
+# output * bg "$(cat ~/.config/sway/current_wallpaper.txt)" fill
+exec_always swaybg -i "$(cat ~/.config/sway/current_wallpaper.txt)" -m fill &
+#exec_always sh -c 'if [ -f ~/.config/sway/wallpaper.txt ]; then swaybg -i "$(cat ~/.config/sway/wallpaper.txt)" -m fill; fi'
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
+exec --no-startup-id waybar
+exec_always --no-startup-id pkill mako; mako &
+exec gammastep -l -15.4:28.3 -t 6500:4000
+
+# touchpad
+input "type:touchpad" {
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
+# screen resolution
+output eDP-1 {
+  mode 1920x1080@120.003Hz
+  position 0,0
+}
+# idle lock screen
+ exec swayidle -w \
+          timeout 300 '~/.config/sway/scripts/lock_screen.sh' \
+          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+          before-sleep '~/.config/sway/scripts/lock_screen.sh'
+
+bindsym $mod+Shift+b exec ~/.config/sway/scripts/blue-light-toggle.sh
+
+bindsym Ctrl+Shift+l exec --no-startup-id ~/.config/sway/scripts/lock_screen.sh
+
+## Volume && Brightness
+bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/sway/scripts/volume.sh +5
+bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/sway/scripts/volume.sh -5
+bindsym XF86AudioMute exec --no-startup-id pamixer --toggle-mute && ~/.config/sway/scripts/volume.sh 0
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/sway/scripts/brightness.sh +4%
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/sway/scripts/brightness.sh 4%-
+
+#bindsym XF86AudioPlay exec 'playerctl pause'
+# Toggle waybar
+bindsym $mod+w exec --no-startup-id ~/.config/sway/scripts/toggle_waybar.sh
+bindsym $mod+Shift+w exec ~/.config/sway/scripts/change-wallpaper.sh
+## enter fullscreen mode for the focused container
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86Calculator exec gnome-calculator
+
+## Power menu
+bindsym XF86PowerOff exec --no-startup-id ~/.config/sway/scripts/power-menu.sh
+
+## Music Controls
+bindsym $alt+Ctrl+space exec audacious -t
+bindsym $alt+0 exec audacious -f
+bindsym $alt+9 exec audecious -p
+
+# Focus follows mouse
+focus_follows_mouse yes
+
+# Launch terminal, browser, file manager
+bindsym $mod+Return       exec alacritty
+bindsym $alt+x            exec firefox
+bindsym $alt+z            exec nemo
+bindsym $alt+Shift+c      exec firefox --new-window --class webapp "https://chatgpt.com/"
+bindsym $alt+c            exec code
+bindsym $alt+v            exec alacritty --class=Neovim -e nvim
+
+# App launcher
+bindsym $mod+Space exec wofi --show drun
+
+# Close window
+bindsym Ctrl+comma kill
+
+# Fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Split layout
+bindsym $mod+v split vertical
+bindsym $mod+b split horizontal
+
+# Move focus (hjkl or arrows)
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# Move the focused window with the same, but add Shift
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+## auto back & forth workspace
+workspace_auto_back_and_forth yes
+
+# Toggle floating
+bindsym $mod+Shift+f floating toggle
+
+# Drag floating windows with mouse
+floating_modifier $mod
+
+# Screenshot
+bindsym $mod+p exec ~/.config/sway/scripts/screenshot.sh full
+bindsym $mod+Shift+p exec ~/.config/sway/scripts/screenshot.sh region
+
+# Reload & exit
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+
+# Define names for default workspaces for which we configure key bindings later on.
+# We use variables to avoid repeating the names in multiple places.
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws8 "0"
+
+## switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws0
+
+## move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws0
+
+## Resizing containers:
+mode "resize" {
+    # Ditto, with arrow keys
+    bindsym Left resize shrink width 10px
+    bindsym Down resize grow height 10px
+    bindsym Up resize shrink height 10px
+    bindsym Right resize grow width 10px
+
+    # Return to default mode
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+# Gaps
+gaps inner 3
+gaps outer 3
+bindsym $mod+Ctrl+0 gaps inner all set 0; gaps outer all set 0
+bindsym $mod+Ctrl+9 gaps inner all set 3; gaps outer all set 3
+
+#color class            border      background  text      indicator   child_border
+client.focused          #1b5e20     #282828     #ebdbb2   #2e7d32     #1b5e20
+client.focused_inactive #3c3f36     #282828     #bfbfbf   #3c3f36     #3c3f36
+client.unfocused        #3c3f36     #282828     #bfbfbf   #3c3f36     #3c3f36
+client.urgent           #4e9a06     #282828     #ebdbb2   #6abf2a     #4e9a06
+client.placeholder      #3c3f36     #282828     #bfbfbf   #3c3f36     #3c3f36
+client.background       #282828     #282828
+
+#borders stuff
+for_window [title="^.*"] title_format ""
+default_border pixel 1
+default_floating_border pixel 1
+
+
+set {
+	$sticky floating enable; sticky enable;
+	$float floating enable;
+}
+assign [app_id="firefox"] 1
+assign [app_id="audacious"] 8
+assign [app_id="code"] 2
+assign [app_id="alacritty"] 3
+
+
+for_window {
+	[app_id="firefox" title="^Picture-in-Picture$"] $sticky
+
+	[app_id="exe$"] $float # Wayland wine app
+	[class="exe$"] $float # XWayland wine app
+	[instance="REAPER"] $float
+	[app_id="xdg-desktop-portal-gtk"] $float
+	[app_id="blueman-manager"] $float
+	[app_id="nm-connection-editor"] $float
+	[app_id="Impala"] $float
+	[app_id="btop"] $float
+	[app_id="nmtui"] $float
+	[app_id="com.github.persepolisdm.persepolis"] $float
+	[app_id="org.gnome.Calculator"] $float
+	# [title="Extension:*"] $float # Bitwarden passkey etc.
+	[title="Write:*"] $float # Thunderbird write emails
+	[window_role="pop-up,task_dialog,About"] $float
+	[window_type="dialog"] $float
+	[window_type="dropdown_menu"] $float
+	[window_type="menu"] $float
+	[window_type="notification"] $float
+	[window_type="popup_menu"] $float
+	[window_type="splash"] $float
+	[window_type="toolbar"] $float
+	[window_type="tooltip"] $float
+	[window_type="utility"] $float
+        [app_id="zenity"] floating enable
+	[title="Wine System Tray"] floating enable; kill
+}
