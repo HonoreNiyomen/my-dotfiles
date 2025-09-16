@@ -9,10 +9,10 @@
 #umask 022
 
 # automatically login into sway
-if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
-  PATH="$HOME/.cargo/bin:$PATH"
-  exec sway
-fi
+#if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
+#  PATH="$HOME/.cargo/bin:$PATH"
+#  exec sway
+#fi
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
