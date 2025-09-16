@@ -5,9 +5,12 @@ set $alt Mod1
 include ~/.config/sway/scripts/systemd-user.conf
 
 # Auto exec applications
-output * bg ~/Pictures/Wallpaper.jpg fill
+# output * bg "$(cat ~/.config/sway/current_wallpaper.txt)" fill
+exec_always swaybg -i "$(cat ~/.config/sway/current_wallpaper.txt)" -m fill &
+#exec_always sh -c 'if [ -f ~/.config/sway/wallpaper.txt ]; then swaybg -i "$(cat ~/.config/sway/wallpaper.txt)" -m fill; fi'
 exec --no-startup-id picom --config ~/.config/picom/picom.conf
 exec --no-startup-id waybar
+exec_always --no-startup-id pkill mako; mako &
 exec gammastep -l -15.4:28.3 -t 6500:4000
 
 # touchpad
@@ -42,11 +45,13 @@ bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/sway/scripts/bright
 #bindsym XF86AudioPlay exec 'playerctl pause'
 # Toggle waybar
 bindsym $mod+w exec --no-startup-id ~/.config/sway/scripts/toggle_waybar.sh
+bindsym $mod+Shift+w exec ~/.config/sway/scripts/change-wallpaper.sh
 ## enter fullscreen mode for the focused container
-bindsym XF86AudioPlay fullscreen toggle
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86Calculator exec gnome-calculator
 
 ## Power menu
-bindsym XF86PowerOff exec ~/.config/sway/scripts/power-menu.sh
+bindsym XF86PowerOff exec --no-startup-id ~/.config/sway/scripts/power-menu.sh
 
 ## Music Controls
 bindsym $alt+Ctrl+space exec audacious -t
@@ -62,6 +67,7 @@ bindsym $alt+x            exec firefox
 bindsym $alt+z            exec nemo
 bindsym $alt+Shift+c      exec firefox --new-window --class webapp "https://chatgpt.com/"
 bindsym $alt+c            exec code
+bindsym $alt+v            exec alacritty --class=Neovim -e nvim
 
 # App launcher
 bindsym $mod+Space exec wofi --show drun
@@ -115,6 +121,8 @@ set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
+set $ws9 "9"
+set $ws8 "0"
 
 ## switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -125,6 +133,8 @@ bindsym $mod+5 workspace number $ws5
 bindsym $mod+6 workspace number $ws6
 bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws0
 
 ## move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -135,6 +145,8 @@ bindsym $mod+Shift+5 move container to workspace number $ws5
 bindsym $mod+Shift+6 move container to workspace number $ws6
 bindsym $mod+Shift+7 move container to workspace number $ws7
 bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws0
 
 ## Resizing containers:
 mode "resize" {
@@ -154,10 +166,9 @@ bindsym $mod+r mode "resize"
 # Gaps
 gaps inner 3
 gaps outer 3
-bindsym $mod+Ctrl+0 gaps inner all set 0
-bindsym $mod+Ctrl+9 gaps inner all set 3
+bindsym $mod+Ctrl+0 gaps inner all set 0; gaps outer all set 0
+bindsym $mod+Ctrl+9 gaps inner all set 3; gaps outer all set 3
 
-#set colours
 #color class            border      background  text      indicator   child_border
 client.focused          #1b5e20     #282828     #ebdbb2   #2e7d32     #1b5e20
 client.focused_inactive #3c3f36     #282828     #bfbfbf   #3c3f36     #3c3f36
@@ -176,13 +187,27 @@ set {
 	$sticky floating enable; sticky enable;
 	$float floating enable;
 }
+assign [app_id="firefox"] 1
+assign [app_id="audacious"] 8
+assign [app_id="code"] 2
+assign [app_id="alacritty"] 3
+
+
 for_window {
 	[app_id="firefox" title="^Picture-in-Picture$"] $sticky
 
 	[app_id="exe$"] $float # Wayland wine app
 	[class="exe$"] $float # XWayland wine app
 	[instance="REAPER"] $float
-	[title="Extension:*"] $float # Bitwarden passkey etc.
+	[app_id="xdg-desktop-portal-gtk"] $float
+	[app_id="blueman-manager"] $float
+	[app_id="nm-connection-editor"] $float
+	[app_id="Impala"] $float
+	[app_id="btop"] $float
+	[app_id="nmtui"] $float
+	[app_id="com.github.persepolisdm.persepolis"] $float
+	[app_id="org.gnome.Calculator"] $float
+	# [title="Extension:*"] $float # Bitwarden passkey etc.
 	[title="Write:*"] $float # Thunderbird write emails
 	[window_role="pop-up,task_dialog,About"] $float
 	[window_type="dialog"] $float

@@ -45,7 +45,7 @@ if pgrep -u "$USER_NAME" -x waybar >/dev/null 2>&1; then
   if pgrep -u "$USER_NAME" -x waybar >/dev/null 2>&1; then
     pkill -9 -u "$USER_NAME" -x waybar 2>/dev/null || true
   fi
-  notify "Waybar stopped"
+  # notify "Waybar stopped"
   exit 0
 else
   # start waybar
@@ -64,7 +64,7 @@ else
 
   # confirm started
   if pgrep -u "$USER_NAME" -x waybar >/dev/null 2>&1; then
-    notify "Waybar started"
+    # notify "Waybar started"
     exit 0
   else
     notify "Failed to start Waybar"

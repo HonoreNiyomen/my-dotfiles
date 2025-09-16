@@ -1,123 +1,79 @@
 * {
-  font-family: "JetBrainsMono Nerd Font";
-  font-size: 8pt;
+  background-color: #11221c;
+  color: #e6d8ba;
+
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  font-family: CaskaydiaMono Nerd Font;
+  font-size: 13px;
   font-weight: bold;
-  border-radius: 0px;
-  transition-property: background-color;
-  transition-duration: 0.3s;
 }
 
-@keyframes blink_red {
-  to {
-    background-color: rgb(242, 143, 173);
-    color: rgb(26, 24, 38);
-  }
+.modules-left {
+  margin-left: 8px;
 }
 
-.warning, .critical, .urgent {
-  animation-name: blink_red;
-  animation-duration: 1s;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
+.modules-right {
+  margin-right: 8px;
 }
-
-/* ---------- BAR / BOX BACKGROUNDS ---------- */
-
-/* full black bar */
-window#waybar {
-  background-color: #000000;
-}
-
-/* module boxes (slightly translucent so UI looks layered) */
-window > box {
-  margin: 0px 5px 2px 5px;
-  background-color: rgba(0, 0, 0, 0.85); /* change to #000000 if you want fully opaque */
-}
-
-/* ---------- WORKSPACES ---------- */
 
 #workspaces {
   padding: 0px 4px;
 }
 
 #workspaces button {
-  padding: 2px 5px;
+  padding: 8px 6px;
 }
 
+#workspaces button.empty {
+  opacity: 0.5;
+}
+
+
 #workspaces button.focused {
-  background-color: rgb(181, 232, 224);
-  color: rgb(26, 24, 38);
+  background-color: #394942;
+  color: #394942;
 }
 
 #workspaces button.urgent {
-  color: rgb(26, 24, 38);
+  color: #4d2f17;
 }
 
 #workspaces button:hover {
-  background-color: rgb(248, 189, 150);
-  color: rgb(26, 24, 38);
+  background-color: #11221c;
 }
 
-/* ---------- TOOLTIP ---------- */
+
+
+#tray,
+#cpu,
+#battery,
+#network,
+#bluetooth,
+#pulseaudio,
+#custom-omarchy,
+#custom-update {
+  min-width: 12px;
+  margin: 0 7.5px;
+}
+
+#custom-expand-icon {
+  margin-right: 7px;
+}
 
 tooltip {
-  background: rgb(48, 45, 65);
+  padding: 2px;
 }
 
-tooltip label {
-  color: rgb(217, 224, 238);
-}
-
-/* ---------- MODULE PADDING ---------- */
-
-#clock, #memory, #cpu, #backlight, #pulseaudio, #network, #battery, #custom-powermenu, #tray {
-  padding: 0px 8px;
-}
-
-/* ---------- MODULE COLORS (contrast against black) ---------- */
-
-#memory {
-  color: rgb(181, 232, 224);
-}
-
-#cpu {
-  color: rgb(245, 194, 231);
+#custom-update {
+  font-size: 10px;
 }
 
 #clock {
-  color: rgb(217, 224, 238);
+  margin-left: 8.75px;
 }
 
-#backlight {
-  color: rgb(248, 189, 150);
+.hidden {
+  opacity: 0;
 }
-
-#pulseaudio {
-  color: rgb(245, 224, 220);
-}
-
-#network {
-  color: #ABE9B3;
-}
-
-#network.disconnected {
-  color: rgb(255, 255, 255);
-}
-
-#battery {
-  color: rgb(250, 227, 176);
-}
-
-#battery.critical:not(.charging) {
-  color: rgb(242, 143, 173);
-}
-
-#custom-powermenu {
-  color: rgb(242, 143, 173);
-}
-
-#tray {
-  padding: 0px 8px;
-}
-

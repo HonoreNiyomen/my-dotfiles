@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Show power options using rofi
-chosen=$(echo -e "Shutdown\nReboot\nLog Out\nSuspend\nHibernate" | wofi -dmenu -i -p "Power Menu")
+# Show power options using wofi in dmenu mode
+chosen=$(echo -e "Shutdown\nReboot\nLog Out\nSuspend\nHibernate" | wofi --dmenu --prompt "Power Menu")
 
 case $chosen in
     Shutdown)
@@ -11,7 +11,7 @@ case $chosen in
         systemctl reboot
         ;;
     Log\ Out)
-        i3-msg exit
+        swaymsg exit
         ;;
     Suspend)
         systemctl suspend
